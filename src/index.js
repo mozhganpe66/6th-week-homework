@@ -1,9 +1,40 @@
 function displayTemperature(response) {
-  let temperatureElement = document.querySelector("#current-temperature");
-  let temperature = Math.round(response.data.temperature.current);
+
+  // City:
   let cityElement = document.querySelector("#current-city");
   cityElement.innerHTML = response.data.city;
+
+  // Time
+  let timeElement = document.querySelector("#time");
+  let date = new Date(response.data.time * 1000);
+  timeElement.innerHTML =   `<strong>Time:</strong> ${formatDate(date)}`;
+
+  // Weather Condition:
+  let conditionElement = document.querySelector("#weather-condition")
+  conditionElement.innerHTML =  `<strong>Weather condtition:</strong> ${response.data.condition.description}`;
+
+  // Humidity 
+  let humidityElement = document.querySelector("#humidity");
+  humidityElement.innerHTML = `<strong>Humidity:</strong> ${response.data.temperature.humidity}%`;
+  
+  // Wind Speed
+  const speedElement = document.querySelector("#speed");
+  speedElement.innerHTML = `<strong>Wind speed:</strong> ${response.data.wind.speed}km/h`;
+
+  // Temperature: 
+  let temperatureElement = document.querySelector("#current-temperature-value");
+  let temperature = Math.round(response.data.temperature.current);
   temperatureElement.innerHTML = temperature;
+
+  // Temperature unit element
+  let unitElement = document.querySelector("#current-temperature-unit");
+  if (unitElement) {
+    unitElement.style.display = "inline";
+  }
+
+  // Temperature Icon
+  let iconElement = document.querySelector("#current-temperature-icon");
+  iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" alt="${response.data.condition.description}" />`; 
 }
 
 function search(event) {
@@ -47,7 +78,4 @@ function formatDate(date) {
 let searchForm = document.querySelector("#search-form");
 searchForm.addEventListener("submit", search);
 
-let currentDateELement = document.querySelector("#current-date");
-let currentDate = new Date();
 
-currentDateELement.innerHTML = formatDate(currentDate);
